@@ -3,12 +3,40 @@
   "version": "1.0.0",
   "description": "AI-native retention infrastructure for SaaS companies",
   "private": true,
+  "homepage": "https://github.com/adityash8/exit-zero#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adityash8/exit-zero.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adityash8/exit-zero/issues"
+  },
+  "keywords": [
+    "ai",
+    "retention",
+    "churn",
+    "saas",
+    "stripe",
+    "supabase",
+    "nextjs",
+    "typescript",
+    "machine-learning",
+    "reinforcement-learning",
+    "webhook",
+    "api",
+    "react",
+    "open-source"
+  ],
+  "author": "ExitZero Team",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "demo": "open demo.html",
+    "setup": "./scripts/setup.sh"
   },
   "dependencies": {
     "next": "^14.0.0",
