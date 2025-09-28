@@ -48,7 +48,7 @@ export interface GeneratedCopy {
 export class AICopyComposer {
   private anthropic: Anthropic;
   private openai: OpenAI;
-  private fallbackTemplates: Map<string, string>;
+  private fallbackTemplates!: Map<string, string>;
 
   constructor() {
     this.anthropic = new Anthropic({

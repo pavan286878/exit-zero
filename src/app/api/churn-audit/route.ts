@@ -179,7 +179,7 @@ async function processAudit(auditId: string, request: ChurnAuditRequest) {
       .from('churn_audits')
       .update({
         status: 'failed',
-        results: { error: error.message }
+        results: { error: error instanceof Error ? error.message : 'Unknown error' }
       })
       .eq('id', auditId);
   }
@@ -239,14 +239,14 @@ async function analyzeChurnData(stripeData: any, periodDays: number) {
   
   // Calculate basic metrics
   const totalCustomers = customers.length;
-  const activeSubscriptions = subscriptions.filter(s => s.status === 'active').length;
-  const canceledSubscriptions = subscriptions.filter(s => s.status === 'canceled').length;
+  const activeSubscriptions = subscriptions.filter((s: any) => s.status === 'active').length;
+  const canceledSubscriptions = subscriptions.filter((s: any) => s.status === 'canceled').length;
   const churnRate = totalCustomers > 0 ? (canceledSubscriptions / totalCustomers) * 100 : 0;
   
   // Calculate average lifetime
-  const canceledSubs = subscriptions.filter(s => s.status === 'canceled');
+  const canceledSubs = subscriptions.filter((s: any) => s.status === 'canceled');
   const avgLifetime = canceledSubs.length > 0 
-    ? canceledSubs.reduce((sum, sub) => {
+    ? canceledSubs.reduce((sum: number, sub: any) => {
         const created = new Date(sub.created * 1000);
         const canceled = new Date(sub.canceled_at! * 1000);
         return sum + (canceled.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
@@ -255,16 +255,16 @@ async function analyzeChurnData(stripeData: any, periodDays: number) {
 
   // Analyze churn reasons
   const churnReasons = subscriptions
-    .filter(s => s.status === 'canceled' && s.cancellation_details?.reason)
-    .map(s => s.cancellation_details!.reason!);
+    .filter((s: any) => s.status === 'canceled' && s.cancellation_details?.reason)
+    .map((s: any) => s.cancellation_details!.reason!);
   
-  const reasonCounts = churnReasons.reduce((acc, reason) => {
+  const reasonCounts = churnReasons.reduce((acc: Record<string, number>, reason: string) => {
     acc[reason] = (acc[reason] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
   
   const topChurnReasons = Object.entries(reasonCounts)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([,a], [,b]) => (b as number) - (a as number))
     .slice(0, 5)
     .map(([reason]) => reason);
 
@@ -283,16 +283,20 @@ async function analyzeChurnData(stripeData: any, periodDays: number) {
 }
 
 function segmentCustomersByRisk(customers: any[], subscriptions: any[]) {
-  const segments = {
+  const segments: {
+    high: any[];
+    medium: any[];
+    low: any[];
+  } = {
     high: [],
     medium: [],
     low: []
   };
 
-  customers.forEach(customer => {
-    const customerSubs = subscriptions.filter(s => s.customer === customer.id);
-    const activeSub = customerSubs.find(s => s.status === 'active');
-    const canceledSub = customerSubs.find(s => s.status === 'canceled');
+  customers.forEach((customer: any) => {
+    const customerSubs = subscriptions.filter((s: any) => s.customer === customer.id);
+    const activeSub = customerSubs.find((s: any) => s.status === 'active');
+    const canceledSub = customerSubs.find((s: any) => s.status === 'canceled');
     
     let riskScore = 0;
     
@@ -350,7 +354,7 @@ SELECT
   ${analysis.avgLifetime} as value;
 
 -- Top Churn Reasons
-${analysis.topChurnReasons.map((reason, i) => 
+${analysis.topChurnReasons.map((reason: string, i: number) => 
   `SELECT '${reason}' as reason, ${i + 1} as rank;`
 ).join('\n')}
 
@@ -424,7 +428,7 @@ async function sendAuditResultsEmail(email: string, results: any) {
     - Average Lifetime: ${results.avgLifetime} days
     
     🎯 Top Churn Reasons:
-    ${results.topChurnReasons.map((reason, i) => `${i + 1}. ${reason}`).join('\n')}
+    ${results.topChurnReasons.map((reason: string, i: number) => `${i + 1}. ${reason}`).join('\n')}
     
     ⚠️ Risk Segments:
     - High Risk: ${results.riskSegments.high} customers
@@ -432,7 +436,7 @@ async function sendAuditResultsEmail(email: string, results: any) {
     - Low Risk: ${results.riskSegments.low} customers
     
     💡 Recommendations:
-    ${results.recommendations.map((rec, i) => `${i + 1}. ${rec}`).join('\n')}
+    ${results.recommendations.map((rec: string, i: number) => `${i + 1}. ${rec}`).join('\n')}
     
     Your detailed SQL report is attached.
     

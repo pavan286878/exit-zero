@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { QLearningBandit, DEFAULT_OFFERS, Offer } from '@/lib/q-learning-bandit';
 import { AICopyComposer, UserContext, OfferContext } from '@/lib/ai-copy-composer';
 import { createClient } from '@supabase/supabase-js';
-import { Redis } from 'redis';
+import { createClient as createRedisClient } from 'redis';
 
 // Initialize services
 const supabase = createClient(
@@ -15,9 +15,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const redis = new Redis({
+const redis = createRedisClient({
   url: process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  password: process.env.UPSTASH_REDIS_REST_TOKEN!,
 });
 
 const bandit = new QLearningBandit(DEFAULT_OFFERS);
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
     
     // Cache the offer for tracking
     const offerId = `offer_${Date.now()}_${body.userId}`;
-    await redis.setex(
+    await redis.setEx(
       `offer:${offerId}`,
       3600, // 1 hour expiry
       JSON.stringify({
@@ -286,7 +286,7 @@ async function shouldPresentOffer(userContext: UserContext, request: CancelInten
   if (recentOffer) return false;
   
   // Set flag to prevent multiple offers
-  await redis.setex(recentOfferKey, 86400, '1'); // 24 hours
+  await redis.setEx(recentOfferKey, 86400, '1'); // 24 hours
   
   return true;
 }

@@ -318,7 +318,7 @@ function calculateMRR(items: Stripe.SubscriptionItem[]): number {
         amount = amount * 4.33; // Approximate weeks per month
       }
       
-      totalMRR += amount * item.quantity;
+      totalMRR += amount * (item.quantity || 1);
     }
   });
   

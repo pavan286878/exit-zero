@@ -252,17 +252,20 @@ async function generateCSVExport(customerId: string): Promise<string> {
   
   // Cancel intents
   cancelIntents?.forEach(event => {
-    csv += `Cancel Intent,${event.cancel_reason || 'unknown'},${event.created_at},"Plan: ${event.plan}, MRR: $${event.mrr}, Offer: ${event.offer_type || 'none}"\n`;
+    const mrr = event.mrr || 0;
+    csv += 'Cancel Intent,' + (event.cancel_reason || 'unknown') + ',' + event.created_at + ',"Plan: ' + event.plan + ', MRR: $' + mrr + ', Offer: ' + (event.offer_type || 'none') + '"\n';
   });
 
   // Offer responses
   offerResponses?.forEach(response => {
-    csv += `Offer Response,${response.response},${response.created_at},"Offer ID: ${response.offer_id}, Reward: ${response.reward}"\n`;
+    const reward = response.reward || 0;
+    csv += 'Offer Response,' + response.response + ',' + response.created_at + ',"Offer ID: ' + response.offer_id + ', Reward: ' + reward + '"\n';
   });
 
   // Webhook offers
   webhookOffers?.forEach(offer => {
-    csv += `Webhook Offer,${offer.offer_type},${offer.created_at},"Value: ${offer.offer_value}, Confidence: ${offer.confidence}"\n`;
+    const value = offer.offer_value || 0;
+    csv += 'Webhook Offer,' + offer.offer_type + ',' + offer.created_at + ',"Value: ' + value + ', Confidence: ' + offer.confidence + '"\n';
   });
 
   return csv;

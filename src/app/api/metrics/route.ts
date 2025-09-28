@@ -67,8 +67,8 @@ export async function GET(request: NextRequest) {
     let mrrSaved = 0;
     if (!mrrError && mrrData) {
       mrrSaved = mrrData
-        .filter(item => item.response === 'accepted')
-        .reduce((sum, item) => {
+        .filter((item: any) => item.response === 'accepted')
+        .reduce((sum: number, item: any) => {
           const offer = item.webhook_offers;
           if (offer.offer_type === 'discount') {
             return sum + (offer.offer_value || 0);
